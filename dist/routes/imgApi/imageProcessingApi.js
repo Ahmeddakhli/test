@@ -23,16 +23,22 @@ app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const img_width = parseInt((_b = req.query) === null || _b === void 0 ? void 0 : _b.width);
     const img_file_name = (_c = req.query) === null || _c === void 0 ? void 0 : _c.filename;
     if (!img_file_name || !img_width || !img_height) {
-        res.status(500).send('img_file_name, img_width and img_height are mandatory . Please hit the api again');
+        res
+            .status(500)
+            .send('img_file_name, img_width and img_height are mandatory . Please hit the api again');
     }
     else {
         const image_path = path_1.default.join(__dirname, '../../../public/oraginimages', `${img_file_name}.jpg`);
-        if (!fs_1.default.existsSync(image_path)) { // If there is no such file
-            res.status(404).send(`${img_file_name} does not exist .check the file name`);
+        if (!fs_1.default.existsSync(image_path)) {
+            // If there is no such file
+            res
+                .status(404)
+                .send(`${img_file_name} does not exist .check the file name`);
         }
         else {
             const resizedImage = path_1.default.join(__dirname, '../../../public/resizedimages', `${img_file_name}-${img_width}-${img_height}-thumb.jpg`);
-            if (fs_1.default.existsSync(resizedImage)) { // Return resizedImage, If we already have resized image 
+            if (fs_1.default.existsSync(resizedImage)) {
+                // Return resizedImage, If we already have resized image
                 res.sendFile(resizedImage);
             }
             else {

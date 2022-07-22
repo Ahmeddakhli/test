@@ -39,7 +39,7 @@ app.use((0, morgan_1.default)('dev'));
 // add routing for / path
 app.get('/', (req, res) => {
     res.json({
-        message: 'Hello World 🌍'
+        message: 'Hello World 🌍',
     });
 });
 // start express server
@@ -49,6 +49,6 @@ app.listen(PORT, () => {
 app.use('/api', index_1.default);
 exports.default = app;
 //  myFunc = (num: number): number => {
-//   return num * num;
-// };
-// export.myFunc=myFunc;
+//   return num * num
+// }
+// export.myFunc=myFunc

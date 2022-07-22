@@ -7,7 +7,7 @@
     "start": "nodemon --watch './**/*.ts' --exec 'ts-node' ./src/index.ts",
     "build": "npx tsc",
     "start:prod": "npm run build && node dist/index.js",
-    "lint": "eslint .",
+    "lint": "eslint . --ext .ts",
     "lint:fix": "eslint --fix",
     "format": "prettier --write 'src/**/*.ts'",
     "test": "npx tsc && jasmine"
