@@ -2,6 +2,8 @@ import fs from 'fs'
 import path from 'path'
 import app from '../index'
 import supertest from 'supertest'
+import { resizedImages } from '../imgUtilities'
+
 
 const request = supertest(app)
 describe('test main response', () => {
@@ -41,3 +43,41 @@ describe('Test image api', () => {
     expect(fs.existsSync(filePath)).toBeTrue()
   })
 })
+  it('succeeds to  check write resized thumb file ', async (): Promise<void> => {
+    await resizedImages(  'fjord', 100, 100 )
+    const filePath = path.join(
+      __dirname,
+      '../../public/resizedimages/',
+      'fjord-200-200-thumb.jpg'
+    )
+    let error: null | string = ''
+    try {
+      await fs.access(filePath, fs.constants.R_OK, (err) => {
+        console.log(' Checking Permission for file') 
+        if (err)
+          console.error('No Read access') 
+        else
+          console.log('File can be read') 
+      })
+      error = null
+    } catch {
+      error = 'File was not created'
+    }
+
+    expect(error).toBeNull()
+  })
+  // describe('Test image processing suite', () => {
+  //   it('resize non existing image', async () => {
+  //     const filePath = await resizedImages('fjord', 100, 100) 
+  //     expect(filePath).toBeFalsy() 
+  //   })
+  //   it('resize an existing image', async () => {
+  //     const filePath = await resizedImages('fjord', 100, 100) 
+
+  //     expect(filePath).toBeUndefined() 
+  //   })
+  
+  
+  // }) 
+
+

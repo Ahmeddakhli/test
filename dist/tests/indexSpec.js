@@ -16,6 +16,7 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const index_1 = __importDefault(require("../index"));
 const supertest_1 = __importDefault(require("supertest"));
+const imgUtilities_1 = require("../imgUtilities");
 const request = (0, supertest_1.default)(index_1.default);
 describe('test main response', () => {
     it('To verify express app is working or not', () => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,3 +45,32 @@ describe('Test image api', () => {
         expect(fs_1.default.existsSync(filePath)).toBeTrue();
     }));
 });
+it('succeeds to  check write resized thumb file ', () => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, imgUtilities_1.resizedImages)('fjord', 100, 100);
+    const filePath = path_1.default.join(__dirname, '../../public/resizedimages/', 'fjord-200-200-thumb.jpg');
+    let error = '';
+    try {
+        yield fs_1.default.access(filePath, fs_1.default.constants.R_OK, (err) => {
+            console.log('\n> Checking Permission for file');
+            if (err)
+                console.error('No Read access');
+            else
+                console.log('File can be read');
+        });
+        error = null;
+    }
+    catch (_a) {
+        error = 'File was not created';
+    }
+    expect(error).toBeNull();
+}));
+// describe('Test image processing suite', () => {
+//   it('resize non existing image', async () => {
+//     const filePath = await resizedImages('fjord', 100, 100) 
+//     expect(filePath).toBeFalsy() 
+//   })
+//   it('resize an existing image', async () => {
+//     const filePath = await resizedImages('fjord', 100, 100) 
+//     expect(filePath).toBeUndefined() 
+//   })
+// }) 
